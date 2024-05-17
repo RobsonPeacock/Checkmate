@@ -3,7 +3,7 @@
 <ul>
   <% @todos.each do |todo| %>
     <li>
-      <a href="/todos/<%= todo.id %>">
+      <a href="/todos/<%= todo.id %>/edit">
         <%= todo.content %>
       </a>
     </li>
