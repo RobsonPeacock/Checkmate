@@ -1,17 +1,29 @@
-<h1>To do list</h1>
+<div class="h-100 container-fluid">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <%= render "sidebar" %>
 
-<ul>
-  <% @todos.each do |todo| %>
-    <li>
-      <a href="/todos/<%= todo.id %>/edit">
-        <%= todo.content %>
-      </a>
-    </li>
-    <li>
-      <%= button_to "Delete",
-                  todo_path(todo),
-                  method: :delete,
-                  class: "btn btn--light" %>
-    </li>
-  <% end %>
-</ul>
+    <div class="col col-xl-11 min-vh-100">
+      <h1 class="text-light py-5">To do list</h1>
+      
+      <ul class="list-unstyled">
+        <% @todos.each do |todo| %>
+          <div class="card mb-2 bg-dark-blue">
+            <div class="card-body">
+              <li>
+                <a href="/todos/<%= todo.id %>/edit">
+                  <%= todo.content %>
+                </a>
+              </li>
+              <li>
+                <%= button_to "Delete",
+                              todo_path(todo),
+                              method: :delete,
+                              class: "btn btn-danger" %>
+              </li>
+            </div>
+          </div>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
