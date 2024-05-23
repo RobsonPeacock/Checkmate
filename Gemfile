@@ -19,6 +19,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 gem 'bootstrap', '~> 5.3', '>= 5.3.3'
 gem 'sassc-rails', '~> 2.1', '>= 2.1.2'
+gem 'font-awesome-sass', '~> 6.5', '>= 6.5.2'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
