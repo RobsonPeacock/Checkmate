@@ -5,22 +5,26 @@
     <div class="col col-xl-11 min-vh-100">
       <h1 class="text-light py-5">To do list</h1>
       
-      <ul class="list-unstyled">
+      <ul class="list-unstyled list-group">
         <% @todos.each do |todo| %>
           <div class="card mb-2 bg-dark-blue">
             <div class="card-body">
-              <li class="text-light">
-                <%= todo.content %>
-              </li>
-              <a href="/todos/<%= todo.id %>/edit">
-                <i class="fa-solid fa-pen-to-square fa-2x"></i>
-              </a>
-              <li>
-                <%= button_to "Delete",
-                              todo_path(todo),
-                              method: :delete,
-                              class: "btn btn-danger" %>
-              </li>
+              <div class="row">
+                <div class="col-md-10 text-light">
+                  <%= todo.content %>
+                </div>
+
+                <div class="col-md-2 d-flex align-items-center">
+                  <a href="/todos/<%= todo.id %>/edit" class="mx-2">
+                    <i class="fa-solid fa-pen-to-square fa-2x"></i>
+                  </a>
+
+                  <%= button_to "Delete",
+                                todo_path(todo),
+                                method: :delete,
+                                class: "btn btn-danger mx-2" %>
+                </div>
+              </div>
             </div>
           </div>
         <% end %>
