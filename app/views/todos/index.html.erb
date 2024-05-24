@@ -9,7 +9,7 @@
         <% @todos.each do |todo| %>
           <div class="card mb-2 bg-dark-blue">
             <div class="card-body">
-              <li>
+              <li class="text-light">
                 <%= todo.content %>
               </li>
               <a href="/todos/<%= todo.id %>/edit">
