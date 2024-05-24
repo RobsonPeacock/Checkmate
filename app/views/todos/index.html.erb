@@ -10,10 +10,11 @@
           <div class="card mb-2 bg-dark-blue">
             <div class="card-body">
               <li>
-                <a href="/todos/<%= todo.id %>/edit">
-                  <%= todo.content %>
-                </a>
+                <%= todo.content %>
               </li>
+              <a href="/todos/<%= todo.id %>/edit">
+                <i class="fa-solid fa-pen-to-square fa-2x"></i>
+              </a>
               <li>
                 <%= button_to "Delete",
                               todo_path(todo),
