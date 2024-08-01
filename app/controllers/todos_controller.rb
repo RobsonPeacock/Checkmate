@@ -1,46 +1,53 @@
 class TodosController < ApplicationController
+  before_action :set_list
+  before_action :set_todo, only: [:edit, :update, :destroy]
+
   def index
-    @todos = Todo.all
+    @todos = @list.todos
   end
 
   def new
-    @todo = Todo.new
+    @todo = @list.todos.build
   end
 
   def create
-    @todo = Todo.new(todo_params)
+    @todo = @list.todos.build(todo_params)
 
     if @todo.save
-      redirect_to :todos
+      redirect_to list_todos_path(@list)
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
-    @todo = Todo.find(params[:id])
   end
 
   def update
-    @todo = Todo.find(params[:id])
-
     if @todo.update(todo_params)
-      redirect_to :todos
+      redirect_to list_todos_path(@list)
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @todo = Todo.find(params[:id])
     @todo.destroy
 
-    redirect_to :todos, status: :see_other
+    redirect_to list_todos_path(@list), status: :see_other
   end
 
   private
 
     def todo_params
       params.require(:todo).permit(:content)
+    end
+
+    def set_list
+      @list = List.find(params[:list_id])
+    end
+
+    def set_todo
+      @todo = @list.todos.find(params[:id])
     end
 end
