@@ -26,6 +26,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
   gem "byebug", "~> 11.1"
   gem 'rspec-rails', '~> 6.1', '>= 6.1.3'
+  gem 'factory_bot_rails', '~> 6.4', '>= 6.4.3'
 end
 
 group :development do
