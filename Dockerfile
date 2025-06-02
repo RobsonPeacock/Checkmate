@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends nodejs npm nano
 WORKDIR /app
 
 # Set production environment
-ENV RAILS_ENV="production" \
+ENV RAILS_ENV="$RAILS_ENV" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development"
