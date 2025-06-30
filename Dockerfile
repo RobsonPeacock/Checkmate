@@ -49,10 +49,15 @@ COPY --from=build /app /app
 # Run and own only the runtime files as a non-root user for security
 RUN useradd rails --no-create-home --shell /bin/bash && \
     chown -R rails:rails db log tmp
+
+COPY --from=build /app/bin/docker-entrypoint /usr/local/bin/docker-entrypoint
+RUN chmod +x /usr/local/bin/docker-entrypoint && \
+    chown rails:rails /usr/local/bin/docker-entrypoint
+    
 USER rails:rails
 
 # Entrypoint prepares the database.
-ENTRYPOINT ["/app/bin/docker-entrypoint"]
+ENTRYPOINT ["docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
