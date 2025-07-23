@@ -1,7 +1,7 @@
 services:
   web:
     build: .
-    image: $RUBY_VERSION-slim-bookworm
+    image: ruby:$RUBY_VERSION-slim-bookworm
     command: ./bin/rails server -p 3000 -b '0.0.0.0'
     ports:
       - 127.0.0.1:3000:3000
@@ -20,7 +20,7 @@ services:
     image: postgres:14.18
     volumes:
       - postgres_data:/var/lib/docker/volumes/checkmate_db/_data
-      - ./db_init:/docker-entrypoint-initdb.d
+      - /Users/robsonpeacock/Projects/Personal/Checkmate/db_init:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Password123

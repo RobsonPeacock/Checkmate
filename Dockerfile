@@ -3,7 +3,7 @@
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
 ARG RUBY_VERSION=3.3.0
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim-bookworm as base
-RUN apt-get update && apt-get install -y --no-install-recommends nodejs npm nano
+RUN apt-get update && apt-get install -y --no-install-recommends nodejs npm nano sudo
 
 # Rails app lives here
 WORKDIR /app
@@ -48,7 +48,10 @@ COPY --from=build /app /app
 
 # Run and own only the runtime files as a non-root user for security
 RUN useradd rails --create-home --shell /bin/bash && \
-    chown -R rails:rails db log tmp
+    chown -R rails:rails db log tmp \
+    && usermod -aG sudo rails \
+    && echo rails ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/rails \
+    && chmod 0440 /etc/sudoers.d/rails
 
 COPY --from=build /app/bin/docker-entrypoint /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint && \
