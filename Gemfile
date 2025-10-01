@@ -28,6 +28,7 @@ group :development, :test do
   gem "byebug", "~> 11.1"
   gem 'rspec-rails', '~> 6.1', '>= 6.1.3'
   gem 'factory_bot_rails', '~> 6.4', '>= 6.4.3'
+  gem "rubocop", "~> 1.81"
 end
 
 group :development do
