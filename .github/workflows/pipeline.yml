@@ -23,4 +23,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v1
+      - name: Set up Ruby and Install Dependencies
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
       - run: bundle exec rspec
