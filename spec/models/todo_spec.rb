@@ -22,6 +22,6 @@ RSpec.describe Todo, type: :model do
       @todo.content = nil
 
       expect(@todo).to_not be_valid
-    end 
+    end
   end
 end

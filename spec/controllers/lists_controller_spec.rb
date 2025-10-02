@@ -10,9 +10,9 @@ RSpec.describe ListsController, type: :controller do
     it 'assigns @lists with all lists' do
       list1 = List.create!(name: 'List 1')
       list2 = List.create!(name: 'List 2')
-      
+
       get :index
-      
+
       expect(assigns(:lists)).to match_array([list1, list2])
     end
 
