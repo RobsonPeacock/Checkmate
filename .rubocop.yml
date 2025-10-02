@@ -1,2 +1,9 @@
 Style:
   Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  ExcludedMethods:
+    - 'describe'
