@@ -36,6 +36,13 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+      - name: Wait for PostgreSQL
+        run: |
+          for i in 1 2 3 4 5; do
+            nc -z postgres 5432 && break
+            echo "Waiting for DB..."
+            sleep 1
+          done
       - name: Set Application DB Environment Variables
         run: |
           echo "DB_HOST=postgres" >> $GITHUB_ENV
