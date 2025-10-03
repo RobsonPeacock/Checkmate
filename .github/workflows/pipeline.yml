@@ -1,4 +1,4 @@
-name: linting-pipeline
+name: CI Checks
 run-name: This will use Rubocop to check for any offenses
 on: 
   push:
