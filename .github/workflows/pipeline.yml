@@ -18,6 +18,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   run-tests:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_USER: ${{ secrets.DB_USERNAME }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+        ports:
+          - 5432:5432
     permissions:
       checks: write
       contents: read
@@ -27,4 +36,15 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-      - run: bundle exec rspec
+      - name: Set Application DB Environment Variables
+        run: |
+          echo "DB_HOST=postgres" >> $GITHUB_ENV
+          echo "DB_PORT=5432" >> $GITHUB_ENV
+          
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> $GITHUB_ENV
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
+      - name: Prepare and Run Tests
+        run: |
+          bundle exec rails db:setup
+          bundle exec rspec
