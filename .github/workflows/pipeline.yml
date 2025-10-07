@@ -1,0 +1,60 @@
+name: CI Checks
+run-name: This will use Rubocop to check for any offenses
+on: 
+  push:
+    branches:
+      - 'pipeline'
+jobs:
+  run-linter:
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v1
+      - name: RuboCop Linter
+        uses: andrewmcodes/rubocop-linter-action@v3.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  run-tests:
+    environment: CI/Test
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+    services:
+      postgres:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_USER: ${{ secrets.DB_USERNAME }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+        ports:
+          - 5432:5432
+    permissions:
+      checks: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Ruby and Install Dependencies
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Wait for PostgreSQL
+        run: |
+          for i in 1 2 3 4 5; do
+            nc -z localhost 5432 && break
+            echo "Waiting for DB..."
+            sleep 1
+          done
+      - name: Set Application DB Environment Variables
+        run: |
+          echo "DB_HOST=localhost" >> $GITHUB_ENV
+          echo "DB_PORT=5432" >> $GITHUB_ENV
+          
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> $GITHUB_ENV
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
+      - name: Prepare and Run Tests
+        run: |
+          bundle exec rails db:setup
+          bundle exec rspec
